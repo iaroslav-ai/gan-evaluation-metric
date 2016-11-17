@@ -6,7 +6,7 @@ The code in the repository works as follows:
 
 2. Dataset is split into training, validation and testing parts.
 
-3. Training part of dataset is used to train GAN using (https://arxiv.org/abs/1606.03498)[standard] approach.
+3. Training part of dataset is used to train GAN using [standard](https://arxiv.org/abs/1606.03498) approach.
 
 4. Using validation dataset, an architecture selection is performed for a classifier which is trained to distinguish between real and generated data points. Architecture selection is performed in grid search manner. For training, equal amount of real and generated data points are taken.
 
