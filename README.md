@@ -1,5 +1,7 @@
 # Implementation of evaluation metric for GANs
 
+For example evaluation, run example.py. It requires numpy, theano and lasagne to be installed on your system.
+
 The code in the repository works as follows:
 
 1. An example dataset is generated, which contains paris of input / output, where numbers from 0 to 9 are inputs and number image from MNIST dataset as outputs.
