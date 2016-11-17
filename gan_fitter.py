@@ -101,13 +101,12 @@ class D_OBJ_Optimizer():
 
 
 
-def fit(g, d, x, y, max_iter):
+def fit(g, d, x, y, max_iter, callback):
 
     opt_G = G_OBJ_Optimizer(g, d)
     opt_D = D_OBJ_Optimizer(g, d)
 
     for i in range(max_iter):
-        opt_G(x, y)
+        opt_G(x)
         opt_D(x, y)
-        if i % 1000 == 0:
-            print i, '/', max_iter
+        callback(i, g, d)
