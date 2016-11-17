@@ -1,4 +1,4 @@
-# Implementation of evaluation metric for GANs
+# Tests of evaluation metric for GANs
 
 For example evaluation, run example.py. It requires numpy, theano and lasagne to be installed on your system.
 
