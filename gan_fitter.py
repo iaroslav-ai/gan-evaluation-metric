@@ -99,16 +99,15 @@ class D_OBJ_Optimizer():
         l2 = self.true_fnc(1.0, X, Y)
         return l1 + l2
 
-g = GNet(input_sz=3, random_sz=4, layer_sz=2, output_sz=2)
-d = DNet(g, layer_sz=4)
 
-opt_G = G_OBJ_Optimizer(g, d)
-opt_D = D_OBJ_Optimizer(g, d)
 
-x = np.zeros((5,3))
-y = np.zeros((5,2))
+def fit(g, d, x, y, max_iter):
 
-for i in range(100000):
-    opt_D(x, y)
-    if i % 1000 == 0:
-        print opt_D(x, y)
+    opt_G = G_OBJ_Optimizer(g, d)
+    opt_D = D_OBJ_Optimizer(g, d)
+
+    for i in range(max_iter):
+        opt_G(x, y)
+        opt_D(x, y)
+        if i % 1000 == 0:
+            print i, '/', max_iter

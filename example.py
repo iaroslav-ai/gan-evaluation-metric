@@ -68,3 +68,18 @@ class DNet():
     def params(self):
         return lasagne.layers.get_all_params(self.network, trainable=True)
 
+inputs_size = 3
+randomness_amount = 4
+output_size = 4
+dataset_size = 128
+layer_size = 4
+layer_count = 1
+max_iterations = 1024 # max iter for gan training
+
+g = GNet(input_sz=inputs_size, random_sz=randomness_amount, layer_sz=layer_size, output_sz=output_size)
+d = DNet(g, layer_sz=layer_size)
+
+import gan_fitter as gf
+
+gf.fit(g, d, np.random.randn(dataset_size, inputs_size), np.random.randn(dataset_size, output_size), max_iterations)
+
