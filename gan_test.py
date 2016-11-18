@@ -54,10 +54,10 @@ class DNet():
         self.network = lasagne.layers.DenseLayer(
                     self.network, 1, nonlinearity=lasagne.nonlinearities.sigmoid)
 
-        self.fake = lasagne.layers.get_output(self.network)
+        self.output_is_real = lasagne.layers.get_output(self.network)[:, 0]
 
-        self.fake_fnc = theano.function(inputs=[self.input], outputs=self.fake)
-        self.true_fnc = theano.function(inputs=[self.input, self.output], outputs=self.fake)
+        self.fake_fnc = theano.function(inputs=[self.input], outputs=self.output_is_real)
+        self.true_fnc = theano.function(inputs=[self.input, self.output], outputs=self.output_is_real)
 
     def T(self, X, Y):
         return self.true_fnc(X.astype('float32'), Y.astype('float32'))
@@ -74,7 +74,7 @@ def get_data():
     X = np.load(os.path.join('mnist', 'labels.npy')).astype('float32') # gan conditioned on labels
     Y = np.load(os.path.join('mnist', 'images.npy')).astype('float32').astype('float32') # gan conditioned on labels
 
-    Y = np.reshape(Y, (len(Y), -1)) # flatten image
+    Y = np.reshape(Y, (len(Y), -1))*0.0  # flatten image
     # onehot the label
     Z = np.zeros( (len(X), len(np.unique(X[:]))) )
 
@@ -91,12 +91,12 @@ def get_data():
 X, Xv, Xt, Y, Yv, Yt = get_data()
 
 inputs_size = X.shape[1]
-randomness_amount = 32
+randomness_amount = 16
 output_size = Y.shape[1]
 dataset_size = 128
-layer_size = 512
+layer_size = 128
 layer_count = 1
-max_iterations = 2048 # max iter for gan training
+max_iterations = 4096 # max iter for gan training
 
 g = GNet(input_sz=inputs_size, random_sz=randomness_amount, layer_sz=layer_size, output_sz=output_size)
 d = DNet(g, layer_sz=layer_size)
@@ -112,14 +112,15 @@ def callback(i, g, d):
 
     print i
 
-    if (i % 10 == 0):
+    if (i % 20 == 0):
         # generate example
         x = np.zeros((1, 10))
         x[0][0] = 1.0
         yp = g(x)
         yp = np.reshape(yp, (16,16))
 
-        plt.imshow(yp)
+        plt.clf()
+        plt.imshow(yp, vmin=0, vmax=1)
         plt.show()
         plt.pause(0.01)
 
