@@ -94,9 +94,9 @@ inputs_size = X.shape[1]
 randomness_amount = 32
 output_size = Y.shape[1]
 dataset_size = 128
-layer_size = 128
+layer_size = 512
 layer_count = 1
-max_iterations = 1024 # max iter for gan training
+max_iterations = 2048 # max iter for gan training
 
 g = GNet(input_sz=inputs_size, random_sz=randomness_amount, layer_sz=layer_size, output_sz=output_size)
 d = DNet(g, layer_sz=layer_size)

@@ -88,8 +88,8 @@ class D_OBJ_Optimizer():
         loss = D.fake
         loss = (loss.mean()-self.target)**2
 
-        updates = lasagne.updates.nesterov_momentum(
-            loss, D.params(), learning_rate=0.001, momentum=0.9)
+        updates = lasagne.updates.adam(
+            loss, D.params(), learning_rate=0.001, beta1=0.3)
 
         self.fake_fnc = theano.function(inputs=[self.target, G.input], outputs=loss, updates=updates)
         self.true_fnc = theano.function(inputs=[self.target, G.input, G.output], outputs=loss, updates=updates)
